@@ -45,6 +45,4 @@ public class GetCourse {
 		this.linkedIn = linkedIn;
 	}
 	
-	
-
 }

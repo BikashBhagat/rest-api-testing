@@ -1,10 +1,17 @@
 package BasicTest;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import pojo.Course;
 import pojo.GetCourse;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import utility.ReusableMethods;
 public class OAuthTest {
 
@@ -27,9 +34,14 @@ public class OAuthTest {
 		GetCourse gc = given().queryParam("access_token", accessToken)
 				.when().get("https://rahulshettyacademy.com/oauthapi/getCourseDetails").as(GetCourse.class);
 		
-		System.out.println(gc.getUrl());
-		System.out.println(gc.getCourses().getWebAutomation().get(0).getCourseTitle());
-	
+//		System.out.println(gc.getUrl());
+//		System.out.println(gc.getCourses().getWebAutomation().get(0).getCourseTitle());
+		
+		List<Course> webAutomationCourses = gc.getCourses().getWebAutomation();
+		
+		List<Course> seleniumJava = webAutomationCourses.stream().filter(courses -> courses.getCourseTitle().equals("Selenium Webdriver Java")).collect(Collectors.toList());
+		seleniumJava.forEach(c-> System.out.println(c.getCourseTitle()+"    "+c.getPrice()));
+		
 	}
 
 }
